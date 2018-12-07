@@ -22,7 +22,7 @@ void drawHangman(int);
 std::string genSecretWord(const std::vector<std::string> & );
 void showStatus(const std::string & );
 char getGuess();
-bool recordGuess(const std::string & , std::string &, char);
+void recordGuess(const std::string & , std::string &, char);
 bool isWin(std::string);
 bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::string> & dictionary);
 bool letterIsInWord(char letter, const std::string & word);
@@ -62,12 +62,14 @@ int main()
 
         numWrong = 0;
         do {
+
             drawHangman(numWrong);
             showStatus(guessWord);
             letter = getGuess();
 
-
-            if (!recordGuess(word, guessWord, letter))
+            if (letterIsInWord(letter, word))
+                recordGuess(word, guessWord, letter);
+            else
                 numWrong++;
 
 
@@ -192,10 +194,19 @@ void showStatus(const std::string & guess)
 
 bool letterIsInWord(char letter, const std::string & word)
 {
-    return std::find(word.begin(), word.end(), guessedLetter) != word.end();
+    /*
+        @name: letterIsInWord()
+        @author: Samuel Teague
+        @date: 07 Dec 2018
+        @description: checks if a letter is in a word. Really just a nicer way to call std::find()
+        @param: letter, word
+        @return: true if letter is in word, false otherwise
+    */
+
+    return std::find(word.begin(), word.end(), letter) != word.end();
 }
 
-bool recordGuess(const std::string & word, std::string & guess, char guessedLetter)
+void recordGuess(const std::string & word, std::string & guess, char guessedLetter)
 {
     /*
         @name: recordGuess()
@@ -203,20 +214,12 @@ bool recordGuess(const std::string & word, std::string & guess, char guessedLett
         @date: 07 Dec 2018 (most recent)
         @description: Place correctly guessed letter in array guess in its correct spot.
         @param : the correct word, the guess word so far, and the letter guessed
-        @return: true if the letter is a correct guess, false if not.
-            Also changes the second parameter, the guess string, by reference
+        @return: changes the second parameter, the guess string, by reference
     */
 
-
-
-    if (letterIsInWord(guessedLetter, word))
-    {
-        for (int i = 0; i < word.length(); i++)
-            if (guessedLetter == word[i])
-                guess[i] = guessedLetter;
-        return true;
-    }
-    return false;
+    for (int i = 0; i < word.length(); i++)
+        if (guessedLetter == word[i])
+            guess[i] = guessedLetter;
 }
 
 void drawHangman(int x)
