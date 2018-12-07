@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <algorithm>
 
 
 void drawHangman(int);
@@ -24,6 +25,7 @@ char getGuess();
 bool recordGuess(const std::string & , std::string &, char);
 bool isWin(std::string);
 bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::string> & dictionary);
+bool letterIsInWord(char letter, const std::string & word);
 
 
 int main()
@@ -188,7 +190,12 @@ void showStatus(const std::string & guess)
     std::cout << '\n';
 }
 
-bool recordGuess(const std::string & word, std::string & guess, char letter)
+bool letterIsInWord(char letter, const std::string & word)
+{
+    return std::find(word.begin(), word.end(), guessedLetter) != word.end();
+}
+
+bool recordGuess(const std::string & word, std::string & guess, char guessedLetter)
 {
     /*
         @name: recordGuess()
@@ -196,21 +203,19 @@ bool recordGuess(const std::string & word, std::string & guess, char letter)
         @date: 07 Dec 2018 (most recent)
         @description: Place correctly guessed letter in array guess in its correct spot.
         @param : the correct word, the guess word so far, and the letter guessed
-        @return: true if the letter is a correct guess, false if not
+        @return: true if the letter is a correct guess, false if not.
+            Also changes the second parameter, the guess string, by reference
     */
 
 
-    for (int i = 0; i < word.length(); i++)
-    {
-        if (word[i] == letter)
-        {
-            for (i = 0; i < word.length(); i++)
-                if (letter == word[i])
-                    guess[i] = letter;
-            return true;
-        }
-    }
 
+    if (letterIsInWord(guessedLetter, word))
+    {
+        for (int i = 0; i < word.length(); i++)
+            if (guessedLetter == word[i])
+                guess[i] = guessedLetter;
+        return true;
+    }
     return false;
 }
 
