@@ -49,9 +49,6 @@ int main()
     std::string word;
     std::string guessWord;
 
-    //filling the dictionary array
-
-
     do {
         system("cls");
         word = genSecretWord(dictionary);
