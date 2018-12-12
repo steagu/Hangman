@@ -16,6 +16,7 @@
 #include <vector>
 #include <ctime>
 #include <algorithm>
+#include "./GetItemsFromFile/getItemsFromFile.hpp"
 
 
 void drawHangman(int);
@@ -98,25 +99,24 @@ int main()
 
 bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::string> & dictionary)
 {
-    std::ifstream infile;
-    infile.open(fileName);
-    std::string word;
-
-    if (infile.is_open())
-    {
-        while (!infile.eof())
-        {
-            infile >> word;     
-            dictionary.push_back(word);
-
-        }
-        infile.close();
-        return true;
-    }
-    else
-        return false;
-
-
+	/*
+		@name: fillDictionaryFromFile()
+		@author: Samuel Teague
+		@date: 12 December 2018 (mostrecent)
+		@description: Fills a vector with the contents of a dictionary file
+		@param: string fileName: the name of the file
+				vector of strings: reference variable of the vector to fill
+		@return: true if successful, false if not
+	*/
+	try 
+	{
+		dictionary = getItemsFromFile(fileName);
+	}
+	catch (file_not_found)
+	{
+		return false;
+	}
+	return true;
 }
 
 std::string genSecretWord(const std::vector<std::string> & d )
