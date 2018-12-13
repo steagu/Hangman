@@ -38,7 +38,11 @@ int main()
     //vector
     std::vector<std::string> dictionary;
 
-    if (!fillDictionaryFromFile(INFILE_NAME, dictionary))   //if an error occurred reading from file
+    try 
+    {
+    	dictionary = fillDictionaryFromFile(INFILE_NAME);   
+	}
+	catch(file_not_found)
     {
         std::cerr << "Error reading from file\n";
         return 1;
@@ -97,7 +101,7 @@ int main()
     return 0;
 }
 
-bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::string> & dictionary)
+std::vector<std::string> fillDictionaryFromFile(const std::string & fileName)
 {
 	/*
 		@name: fillDictionaryFromFile()
@@ -105,18 +109,10 @@ bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::strin
 		@date: 12 December 2018 (mostrecent)
 		@description: Fills a vector with the contents of a dictionary file
 		@param: string fileName: the name of the file
-				vector of strings: reference variable of the vector to fill
-		@return: true if successful, false if not
+		@return: items from file
+		@throws: throws file_not_found exception (inherits from std::logic_error) if file not found
 	*/
-	try 
-	{
-		dictionary = getItemsFromFile(fileName);
-	}
-	catch (file_not_found)
-	{
-		return false;
-	}
-	return true;
+	return getItemsFromFile(fileName);
 }
 
 std::string genSecretWord(const std::vector<std::string> & d )

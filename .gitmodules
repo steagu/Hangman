@@ -1,0 +1,3 @@
+[submodule "GetItemsFromFile"]
+	path = GetItemsFromFile
+	url = https://github.com/steagu/GetItemsFromFile.git
