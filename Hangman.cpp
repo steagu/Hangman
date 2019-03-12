@@ -25,7 +25,7 @@ void showStatus(const std::string & );
 char getGuess();
 void recordGuess(const std::string & , std::string &, char);
 bool isWin(std::string);
-bool fillDictionaryFromFile(const std::string & fileName, std::vector<std::string> & dictionary);
+std::vector<std::string> fillDictionaryFromFile(const std::string & fileName);
 bool letterIsInWord(char letter, const std::string & word);
 
 
